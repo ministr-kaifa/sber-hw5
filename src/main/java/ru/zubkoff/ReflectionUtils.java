@@ -1,10 +1,11 @@
 package ru.zubkoff;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.stream.Stream;
 
 public class ReflectionUtils {
-  
+
   /**
    * @param clazz
    * @return String representing all declared clazz methods in each row
@@ -19,13 +20,23 @@ public class ReflectionUtils {
    */
   public static String allGetersFormated(Class<?> clazz) {
     return String.join("\n", Stream.of(clazz.getMethods())
-      .filter(method -> method.getName().matches("get.*"))
-      .map(Method::toString)
-      .toList());
+        .filter(method -> method.getName().matches("get.*"))
+        .map(Method::toString)
+        .toList());
   }
 
-
-
-
+  public static boolean isAllStringConstantsContentSameAsName(Class<?> clazz) {
+    return Stream.of(clazz.getFields())
+      .filter(field -> Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
+      .filter(field -> field.getType().equals(String.class))
+      .allMatch(field -> {
+        try {
+          field.setAccessible(true);
+          return field.getName().equalsIgnoreCase((String)field.get(null));
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+          throw new RuntimeException(e);
+        }
+      });
+  }
 
 }
