@@ -1,38 +1,35 @@
-package ru.zubkoff.cache;
+package ru.zubkoff.benchmark;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-public class CachedInvocationHandler implements MethodInterceptor  {
+public class PerformanceProxy implements MethodInterceptor {
 
-  private static final Map<Method, Map<List<Object>, Object>> cache = new HashMap<>();
   private final Object proxied;
 
-  public CachedInvocationHandler(Object proxied) {
+  public PerformanceProxy(Object proxied) {
     this.proxied = proxied;
   }
   
   @Override
   public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-    if (method.isAnnotationPresent(Cached.class)) {
-      return cache.computeIfAbsent(method, newCachedMethod -> new HashMap<>())
-        .computeIfAbsent(List.of(args), firstlyCalledArgs -> call(method, args));
-    } else {
+    if(!method.isAnnotationPresent(Metric.class)) {
       return call(method, args);
     }
+    long startTime = System.nanoTime();
+    var result = call(method, args);
+    System.out.println("Время работы метода: " + (System.nanoTime() - startTime) + "(в наносек)");
+    return result;
   }
 
   public static <T> T newInstance(T target) {
     Enhancer enhancer = new Enhancer();
     enhancer.setSuperclass(target.getClass());
-    enhancer.setCallback(new CachedInvocationHandler(target));
+    enhancer.setCallback(new PerformanceProxy(target));
     return (T)enhancer.create();
   }
 
@@ -43,9 +40,4 @@ public class CachedInvocationHandler implements MethodInterceptor  {
       throw new RuntimeException(e);
     }
   }
-
-  public static void evict() {
-    cache.clear();
-  }
-
 }
