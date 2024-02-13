@@ -6,6 +6,9 @@ import java.util.stream.IntStream;
 
 import org.junit.Test;
 
+import ru.zubkoff.calculator.Calculator;
+import ru.zubkoff.calculator.CalculatorImpl;
+
 public class CalculatorImplTest {
 
   @Test

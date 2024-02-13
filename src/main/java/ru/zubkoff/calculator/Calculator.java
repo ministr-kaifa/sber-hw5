@@ -1,4 +1,4 @@
-package ru.zubkoff;
+package ru.zubkoff.calculator;
 
 public interface Calculator {
 	/**

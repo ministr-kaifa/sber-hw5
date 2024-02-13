@@ -25,7 +25,7 @@ public class ReflectionUtils {
         .toList());
   }
 
-  public static boolean isAllStringConstantsContentSameAsName(Class<?> clazz) {
+  public static boolean isAllStringConstantsContentEqualsToName(Class<?> clazz) {
     return Stream.of(clazz.getFields())
       .filter(field -> Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
       .filter(field -> field.getType().equals(String.class))

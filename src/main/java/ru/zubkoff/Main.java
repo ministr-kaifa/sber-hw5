@@ -1,5 +1,10 @@
 package ru.zubkoff;
 
+import ru.zubkoff.cache.CachedInvocationHandler;
+import ru.zubkoff.calculator.Calculator;
+import ru.zubkoff.calculator.CalculatorImpl;
+import ru.zubkoff.calculator.SlowCalculator;
+
 public class Main {
 
   
@@ -10,8 +15,13 @@ public class Main {
     System.out.println("\nTask 3: Вывести все геттеры класса");
     System.out.println(ReflectionUtils.allGetersFormated(ExampleClass.class));
 
-    System.out.println("\nTask 3: Проверить что все String константы имеют значение = их имени");
-    System.out.println(ReflectionUtils.isAllStringConstantsContentSameAsName(ExampleClass.class));
+    System.out.println("\nTask 4: Проверить что все String константы имеют значение = их имени");
+    System.out.println(ReflectionUtils.isAllStringConstantsContentEqualsToName(ExampleClass.class));
+
+    System.out.println("\nTask 5: Реализовать кэширующий прокси(первое число вычисляется, второе берется из кеша)");
+    Calculator calculator = CachedInvocationHandler.newInstance(new SlowCalculator());
+    System.out.println(calculator.calc(7));
+    System.out.println(calculator.calc(7));
 
   }
 }
