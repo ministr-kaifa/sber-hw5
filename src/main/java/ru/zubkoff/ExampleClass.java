@@ -1,5 +1,7 @@
 package ru.zubkoff;
 
+import java.util.Objects;
+
 class ParentExampleClass {
   private void privateParentMethod() { }
   protected void protectedParentMethod() { }
@@ -47,6 +49,34 @@ public class ExampleClass extends ParentExampleClass {
   
   public void setField3(long field3) {
     this.field3 = field3;
+  }
+
+  @Override
+  public String toString() {
+    return "ExampleClass [field1=" + field1 + ", field2=" + field2 + ", field3=" + field3 + "]";
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(field1, field2, field3);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ExampleClass other = (ExampleClass) obj;
+    if (field1 == null) {
+      if (other.field1 != null)
+        return false;
+    } else if (!field1.equals(other.field1)) {
+      return false;
+    }
+    return field2 == other.field2 || field3 == other.field3;
   }
 
 }

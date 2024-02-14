@@ -13,7 +13,7 @@
       "request": "launch",
       "mainClass": "ru.zubkoff.Main",
       "projectName": "hw5",
-      "vmArgs": "--illegal-access=warn --add-opens=java.base/java.lang=ALL-UNNAMED"
+      "vmArgs": "--add-opens=java.base/java.lang=ALL-UNNAMED"
     }
   ]
 }

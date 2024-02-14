@@ -8,7 +8,7 @@ public class ReflectionUtils {
 
   /**
    * @param clazz
-   * @return String representing all declared clazz methods in each row
+   * @return String representing all declared class methods in each row
    */
   public static String allMethodsFormated(Class<?> clazz) {
     return String.join("\n", Stream.of(clazz.getDeclaredMethods()).map(Method::toString).toList());
@@ -16,7 +16,7 @@ public class ReflectionUtils {
 
   /**
    * @param clazz
-   * @return String representing all declared clazz methods in each row
+   * @return String representing all declared class methods in each row
    */
   public static String allGetersFormated(Class<?> clazz) {
     return String.join("\n", Stream.of(clazz.getMethods())
@@ -25,6 +25,10 @@ public class ReflectionUtils {
         .toList());
   }
 
+  /**
+   * @param clazz
+   * @return true if the contents of all string constants of the class are equal to their names, otherwise false
+   */
   public static boolean isAllStringConstantsContentEqualsToName(Class<?> clazz) {
     return Stream.of(clazz.getFields())
       .filter(field -> Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))

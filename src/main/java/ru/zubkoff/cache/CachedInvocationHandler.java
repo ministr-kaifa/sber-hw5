@@ -10,7 +10,10 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-public class CachedInvocationHandler implements MethodInterceptor  {
+/**
+ * Proxy wrapper for global caching of method call results 
+ */
+public class CachedInvocationHandler implements MethodInterceptor {
 
   private static final Map<Method, Map<List<Object>, Object>> cache = new HashMap<>();
   private final Object proxied;
@@ -29,6 +32,11 @@ public class CachedInvocationHandler implements MethodInterceptor  {
     }
   }
 
+  /**
+   * Creates new cache proxy wrapper instance
+   * @param target object to be wrapped
+   * @return new cache proxy wrapper instance
+   */
   public static <T> T newInstance(T target) {
     Enhancer enhancer = new Enhancer();
     enhancer.setSuperclass(target.getClass());
@@ -43,7 +51,10 @@ public class CachedInvocationHandler implements MethodInterceptor  {
       throw new RuntimeException(e);
     }
   }
-
+  
+  /**
+   * Evicts the cache
+   */
   public static void evict() {
     cache.clear();
   }

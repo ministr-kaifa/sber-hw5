@@ -1,7 +1,5 @@
 package ru.zubkoff.calculator;
 
-import ru.zubkoff.benchmark.Metric;
-
 public interface Calculator {
 	/**
 	* Расчет факториала числа.

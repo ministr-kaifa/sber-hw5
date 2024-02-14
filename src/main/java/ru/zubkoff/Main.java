@@ -3,7 +3,6 @@ package ru.zubkoff;
 import ru.zubkoff.benchmark.PerformanceProxy;
 import ru.zubkoff.cache.CachedInvocationHandler;
 import ru.zubkoff.calculator.Calculator;
-import ru.zubkoff.calculator.CalculatorImpl;
 import ru.zubkoff.calculator.SlowCalculator;
 
 public class Main {
@@ -28,5 +27,19 @@ public class Main {
     calculator = PerformanceProxy.newInstance(new SlowCalculator());
     System.out.println(calculator.calc(5));
 
+    System.out.println("\nTask 7: Реализовать BeanUtils");
+    var exampleClass1 = new ExampleClass();
+    exampleClass1.setField1("1");
+    exampleClass1.setField2(1);
+    exampleClass1.setField3(1);
+
+    var exampleClass2 = new ExampleClass();
+    exampleClass2.setField1("2");
+    exampleClass2.setField2(2);
+    exampleClass2.setField3(2);
+
+    BeanUtils.assign(exampleClass2, exampleClass1);
+    System.out.println(exampleClass2);
+    
   }
 }
