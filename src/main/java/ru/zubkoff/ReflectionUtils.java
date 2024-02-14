@@ -2,6 +2,7 @@ package ru.zubkoff;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class ReflectionUtils {
@@ -30,7 +31,7 @@ public class ReflectionUtils {
    * @return true if the contents of all string constants of the class are equal to their names, otherwise false
    */
   public static boolean isAllStringConstantsContentEqualsToName(Class<?> clazz) {
-    return Stream.of(clazz.getFields())
+    return Stream.of(clazz.getDeclaredFields())
       .filter(field -> Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers()))
       .filter(field -> field.getType().equals(String.class))
       .allMatch(field -> {

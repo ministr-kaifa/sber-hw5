@@ -8,6 +8,7 @@ import ru.zubkoff.calculator.SlowCalculator;
 public class Main {
 
   public static void main(String[] args) {
+
     System.out.println("\nTask 2: Вывести на консоль все методы класса, включая все родительские методы (включая приватные)");
     System.out.println(ReflectionUtils.allMethodsFormated(ExampleClass.class));
 
